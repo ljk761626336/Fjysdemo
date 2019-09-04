@@ -1,0 +1,57 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "2:5679899487299594386",
+      "lastPropertyId": "5:4952130388732070850",
+      "name": "Guijipoint",
+      "properties": [
+        {
+          "id": "1:2649557960177241359",
+          "name": "id"
+        },
+        {
+          "id": "2:4628871980285124445",
+          "name": "lon"
+        },
+        {
+          "id": "3:2549541307837028285",
+          "name": "lat"
+        },
+        {
+          "id": "4:2747115015451157223",
+          "indexId": "2:7886217656626947735",
+          "name": "time"
+        },
+        {
+          "id": "5:4952130388732070850",
+          "name": "userid"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:5679899487299594386",
+  "lastIndexId": "2:7886217656626947735",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [
+    3481714373275461057
+  ],
+  "retiredIndexUids": [
+    8484430947715458950
+  ],
+  "retiredPropertyUids": [
+    4232018586983409010,
+    1344754419628462356,
+    1225726733681404363,
+    8532341898361448263,
+    8615733136300979031
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

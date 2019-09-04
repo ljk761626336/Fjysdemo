@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="titan.com.test.report.ReportActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_5">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="巡查数据上报"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/iv_close_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/background_view_rounded_image"
+                android:padding="3dp"
+                app:srcCompat="@drawable/ic_close_black_24dp"
+                tools:ignore="VectorDrawableCompat" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5"
+                android:text="巡查情况描述"
+                android:textColor="@color/balck"
+                android:textSize="@dimen/textsize_10" />
+
+            <EditText
+                android:id="@+id/report_xcqk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edittext" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5"
+                android:text="巡查人"
+                android:textColor="@color/balck"
+                android:textSize="@dimen/textsize_10" />
+
+            <EditText
+                android:id="@+id/report_xcr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edittext" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5"
+                android:text="当前地址"
+                android:textColor="@color/balck"
+                android:textSize="@dimen/textsize_10" />
+
+            <TextView
+                android:id="@+id/report_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edittext" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5"
+                android:text="经度"
+                android:textColor="@color/balck"
+                android:textSize="@dimen/textsize_10" />
+
+            <TextView
+                android:id="@+id/report_lon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edittext" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5"
+                android:text="纬度"
+                android:textColor="@color/balck"
+                android:textSize="@dimen/textsize_10" />
+
+            <TextView
+                android:id="@+id/report_lat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edittext" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5"
+                android:text="备注"
+                android:textColor="@color/balck"
+                android:textSize="@dimen/textsize_10" />
+
+            <EditText
+                android:id="@+id/report_remark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edittext" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/report_sure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_view_rounded_white"
+            android:gravity="center"
+            android:padding="@dimen/padding_7"
+            android:text="@string/sure"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+</ScrollView>

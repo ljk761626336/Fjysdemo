@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="resultcode">
+        <item>--全部--</item>
+    </string-array>
+
+    <!--图层控制-->
+    <string-array name="imglayer">
+        <item>GIS在线影像</item>
+        <item>2017影像图</item>
+        <item>2018影像图</item>
+    </string-array>
+
+    <string-array name="imglayerUrl">
+        <item>http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer</item>
+        <item>http://120.221.95.109:6080/arcgis/rest/services/QDLY/YX_2017/MapServer</item>
+        <item>http://120.221.95.109:6080/arcgis/rest/services/QDLY/YX_2018/MapServer</item>
+    </string-array>
+
+    <!--在线矢量数据-->
+    <string-array name="verctor_online_layer">
+        <item>水产养殖,http://58.16.177.250:6080/arcgis/rest/services/XP/XPYZ/MapServer</item>
+    </string-array>
+
+    <string-array name="jzdwqk">
+        <item>是</item>
+        <item>否</item>
+    </string-array>
+
+</resources>

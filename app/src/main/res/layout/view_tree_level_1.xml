@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="62dp"
+    >
+
+    <ImageView
+        android:id="@+id/level1_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/width_40"
+        android:layout_centerVertical="true"
+        android:src="@drawable/tree_icon_expand"/>
+
+    <CheckedTextView
+        android:id="@+id/level1_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:layout_below="@+id/level1_id"
+        android:layout_marginRight="12dp"
+        android:layout_toRightOf="@+id/level1_icon"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:layout_marginLeft="10dp"
+        android:text="filename"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:textColor="#000"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/level1_id"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="12dp"
+        android:layout_toRightOf="@+id/level1_icon"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:text="filename"
+        android:textColor="#000"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/level1_parentId"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:layout_toRightOf="@+id/level1_id"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:text="filename"
+        android:textColor="#000"
+        android:textSize="15sp" />
+
+</RelativeLayout>
