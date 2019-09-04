@@ -1,0 +1,5 @@
+include ':appTest', ':app', ':basetreeview'
+include ':LibraryManager'
+project(':LibraryManager').projectDir = new File('../LibraryManager/')
+include ':LibraryManager:baselibrary'
+include ':LibraryManager:drawTool'
