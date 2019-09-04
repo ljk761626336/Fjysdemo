@@ -10,69 +10,42 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.data.Feature;
-import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
-import com.esri.arcgisruntime.layers.ArcGISSublayer;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.layers.Layer;
-import com.esri.arcgisruntime.layers.SublayerList;
-import com.esri.arcgisruntime.mapping.LayerList;
-import com.esri.arcgisruntime.mapping.view.BackgroundGrid;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.titan.baselibrary.permission.PermissionsActivity;
 import com.titan.baselibrary.permission.PermissionsChecker;
 import com.titan.baselibrary.util.Gps;
 import com.titan.baselibrary.util.PositionUtil;
-import com.titan.baselibrary.util.ToastUtil;
-import com.titan.drawtool.DrawTool;
-import com.titan.drawtool.DrawType;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import titan.com.test.R;
 import titan.com.test.TestActivity;
 import titan.com.test.gdlocation.BackGroundService;
 import titan.com.test.gdlocation.GdLocationService;
 import titan.com.test.gdlocation.GdlocationListener;
-import titan.com.test.layercontrol.ILayerControl;
-import titan.com.test.layercontrol.LayerPresenter;
 import titan.com.test.map.senter.MapControl;
 import titan.com.test.map.senter.MapPermission;
 import titan.com.test.map.senter.MapTools;
-import titan.com.test.navication.NavitcationActivity;
 import titan.com.test.track.TrackDialogFragment;
 import titan.com.test.track.TrackPresenter;
-import titan.com.test.util.ActionModel;
 import titan.com.test.util.Constant;
-import titan.com.test.util.ObjectBoxUtil;
 import titan.com.test.util.PermissionsUtil;
 import titan.com.test.util.ReferenceUtil;
-import titan.com.test.util.RenderUtil;
-import titan.com.test.util.ValueCallback;
 
-public class MainActivity extends BaseMapActivity implements IMap,GdlocationListener.IGdLocationListener,
-        TrackDialogFragment.OnFragmentInteractionListener,View.OnClickListener {
+public class MainActivity extends BaseMapActivity implements IMap, GdlocationListener.IGdLocationListener,
+        TrackDialogFragment.OnFragmentInteractionListener, View.OnClickListener {
 
 
     private int index = 0;
@@ -80,7 +53,7 @@ public class MainActivity extends BaseMapActivity implements IMap,GdlocationList
 
     private GdlocationListener gdlocationListener;
 
-    private Point gpspoint, mappoint, lastpoint,selpoint;
+    private Point gpspoint, mappoint, lastpoint, selpoint;
 
     private GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
 
@@ -90,7 +63,7 @@ public class MainActivity extends BaseMapActivity implements IMap,GdlocationList
     private TrackPresenter trackPresenter;
 
     private MapView mapView;
-    private ImageView openView,closeView;
+    private ImageView openView, closeView;
     private DrawerLayout drawerLayout;
 
     @Override
@@ -108,11 +81,11 @@ public class MainActivity extends BaseMapActivity implements IMap,GdlocationList
         return R.layout.activity_main;
     }
 
-    private void initView(){
+    private void initView() {
         drawerLayout = (DrawerLayout) getView(R.id.drawerLayout);
-       mapView = (MapView) getView(R.id.mapview);
-       openView = (ImageView) getView(R.id.tv_layerw);
-       closeView = (ImageView) getView(R.id.iv_close_layer);
+        mapView = (MapView) getView(R.id.mapview);
+        openView = (ImageView) getView(R.id.tv_layerw);
+        closeView = (ImageView) getView(R.id.iv_close_layer);
 
     }
 
@@ -125,12 +98,11 @@ public class MainActivity extends BaseMapActivity implements IMap,GdlocationList
     }
 
 
-
     private void initData() {
 
     }
 
-    private void addEvent(){
+    private void addEvent() {
         openView.setOnClickListener(this);
         closeView.setOnClickListener(this);
     }
@@ -180,7 +152,7 @@ public class MainActivity extends BaseMapActivity implements IMap,GdlocationList
             mapTools.initGisLocation();
         }
 
-        if (resultCode == PermissionsUtil.PERMISSIONS_GRANTED&&
+        if (resultCode == PermissionsUtil.PERMISSIONS_GRANTED &&
                 requestCode == PermissionsUtil.STORAGE_REQUEST_CODE) {
             mapControl.init();
         }
@@ -323,7 +295,7 @@ public class MainActivity extends BaseMapActivity implements IMap,GdlocationList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_scanning:
                 checkCamera();
                 break;

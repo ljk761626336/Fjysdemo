@@ -3,45 +3,46 @@ package titan.com.test.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
 import com.titan.baselibrary.util.ToastUtil;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import titan.com.test.bean.ResultModel;
 import titan.com.test.map.MainActivity;
 import titan.com.test.R;
-import titan.com.test.data.Injection;
-import titan.com.test.data.remote.RemotDataSource;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.login_name)
     EditText loginName;
-    @BindView(R.id.login_psw)
     EditText loginPsw;
-    @BindView(R.id.button)
     Button button;
-    @BindView(R.id.checkboxText)
     CheckedTextView checkboxText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
 
+        initView();
+        addEvent();
+    }
+
+    private void initView(){
+        loginName = findViewById(R.id.login_name);
+        loginPsw = findViewById(R.id.login_psw);
+        button = findViewById(R.id.button);
+        checkboxText = findViewById(R.id.checkboxText);
+    }
+
+    private void addEvent(){
+        button.setOnClickListener(this);
+        checkboxText.setOnClickListener(this);
     }
 
 
-    @OnClick({R.id.button, R.id.checkboxText})
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button:
@@ -65,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login(){
         String name = loginName.getText().toString();
         if(name.equals("")){
-            ToastUtil.setToast(LoginActivity.this,"请输入用户名");
+            ToastUtil.setToast(LoginActivity.this,"请输入手机号");
         }
 
         String pasw = loginPsw.getText().toString();
