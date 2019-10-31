@@ -1,4 +1,4 @@
-include ':appTest', ':app', ':basetreeview'
+include ':fjdemo', ':basetreeview', ':BQMM_Lib'
 include ':LibraryManager'
 project(':LibraryManager').projectDir = new File('../LibraryManager/')
 include ':LibraryManager:baselibrary'

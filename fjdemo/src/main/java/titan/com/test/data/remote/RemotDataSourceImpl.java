@@ -5,6 +5,7 @@ import android.content.Context;
 
 import java.io.IOException;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import rx.Observable;
@@ -53,6 +54,30 @@ public class RemotDataSourceImpl implements RemotDataSource {
                 }
             }
         });
+    }
+
+    @Override
+    public void upEvent(String json, final getCallback callback) {
+        Observable<ResponseBody> observable = RetrofitHelper.getInstance(mContext).getXjServer().addEvent(json);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+                    public void onNext(ResponseBody s) { // 请求成功
+                        try {
+                            callback.onSuccess(s.string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
 

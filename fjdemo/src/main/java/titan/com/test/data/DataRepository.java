@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import titan.com.test.data.local.LocalDataSource;
 import titan.com.test.data.remote.RemotDataSource;
 import titan.com.test.data.remote.RemotDataSourceImpl;
@@ -44,4 +45,10 @@ public class DataRepository implements LocalDataSource, RemotDataSource {
     public void checkLogin(String username, String password, String appname, getCallback callback) {
         mRemoteDataSource.checkLogin(username,password,appname,callback);
     }
+
+    @Override
+    public void upEvent(String json, getCallback callback) {
+        mRemoteDataSource.upEvent(json,callback);
+    }
+
 }

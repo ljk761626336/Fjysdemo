@@ -4,6 +4,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.amap.api.location.AMapLocation;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -25,10 +29,14 @@ import com.titan.baselibrary.permission.PermissionsActivity;
 import com.titan.baselibrary.permission.PermissionsChecker;
 import com.titan.baselibrary.util.Gps;
 import com.titan.baselibrary.util.PositionUtil;
+import com.titan.baselibrary.util.ToastUtil;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import titan.com.test.R;
 import titan.com.test.TestActivity;
@@ -49,7 +57,6 @@ public class MainActivity extends BaseMapActivity implements IMap, GdlocationLis
 
 
     private int index = 0;
-    private ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
     private GdlocationListener gdlocationListener;
 
@@ -65,6 +72,8 @@ public class MainActivity extends BaseMapActivity implements IMap, GdlocationLis
     private MapView mapView;
     private ImageView openView, closeView;
     private DrawerLayout drawerLayout;
+    private ImageView vidioStart;
+    private ImageView scanning,statistView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +95,10 @@ public class MainActivity extends BaseMapActivity implements IMap, GdlocationLis
         mapView = (MapView) getView(R.id.mapview);
         openView = (ImageView) getView(R.id.tv_layerw);
         closeView = (ImageView) getView(R.id.iv_close_layer);
+        vidioStart = (ImageView) getView(R.id.vidio_start);
 
+        scanning = (ImageView)getView(R.id.iv_scanning);
+        statistView = (ImageView) getView(R.id.vidio_statistics);
     }
 
     private void initPresenter() {
@@ -105,6 +117,9 @@ public class MainActivity extends BaseMapActivity implements IMap, GdlocationLis
     private void addEvent() {
         openView.setOnClickListener(this);
         closeView.setOnClickListener(this);
+        vidioStart.setOnClickListener(this);
+        scanning.setOnClickListener(this);
+        statistView.setOnClickListener(this);
     }
 
 
@@ -174,7 +189,7 @@ public class MainActivity extends BaseMapActivity implements IMap, GdlocationLis
                 String result = bundle.getString(CodeUtils.RESULT_STRING);
                 //Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, TestActivity.class);
-                intent.putExtra("map", list.get(index));
+
                 startActivity(intent);
 
             } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
@@ -306,7 +321,21 @@ public class MainActivity extends BaseMapActivity implements IMap, GdlocationLis
             case R.id.iv_close_layer: // 关闭图层控制
                 drawerLayout.closeDrawer(GravityCompat.END);
                 break;
+            case R.id.vidio_start:
+                //ToastUtil.setToast(this,"功能待开发。。。");
+                //startActivity(new Intent(MainActivity.this,SplashActivity.class));//SplashActivity
 
+                //String pageName = "com.yuntongxun.eckuailiao";
+                String pageName = "com.netease.nim.demo";
+                mapTools.openApp(pageName);
+                break;
+            case R.id.vidio_statistics:
+                mapTools.showStatistDialog();
+                break;
         }
     }
+
+
+
+
 }

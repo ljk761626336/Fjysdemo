@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="bchart_data">
+        <item>长春镇,1248.154</item>
+        <item>溪南镇,4819.769</item>
+        <item>下浒镇,1192.659</item>
+        <item>沙江镇,2148.294</item>
+        <item>北壁乡,604.123</item>
+        <item>关门村,0</item>
+        <item>盐田乡,263.399</item>
+    </string-array>
+
+    <string-array name="event_type">
+        <item>日常巡查</item>
+        <item>环保督查</item>
+        <item>灾害督查</item>
+        <item>2019年9月巡查任务</item>
+        <item>2019年8月巡查任务</item>
+        <item>2019年7月巡查任务</item>
+    </string-array>
+
+    <string-array name="mapdata">
+        <item>姓名,连子航</item>
+        <item>编号,ZGM-CCZ-WQC-0005</item>
+        <item>省名,福建省</item>
+        <item>县名,霞浦县</item>
+        <item>乡镇名,长春镇</item>
+        <item>村名,文岐村</item>
+        <item>身份证,352225199301183017</item>
+        <item>联系方式,18750391862</item>
+        <item>面积,7.22 （亩）</item>
+        <item>持证情况,无</item>
+        <item>营业执照,无</item>
+        <item>管理人数,2</item>
+        <item>转型升级情况,未升级</item>
+        <item>养殖周期,6个月</item>
+        <item>投苗时间,2018.11</item>
+        <item>收成时间,2019.05</item>
+        <item>养殖户,自主养殖</item>
+        <item>品种,海带</item>
+        <item>类型,筏式养殖</item>
+        <item>网箱数,0</item>
+        <item>海域来源,生产队分配</item>
+    </string-array>
+
     <string-array name="resultcode">
         <item>--全部--</item>
     </string-array>

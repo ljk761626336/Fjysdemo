@@ -8,15 +8,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/appTest" />
+            <option value="$PROJECT_DIR$/BQMM_Lib" />
             <option value="$PROJECT_DIR$/basetreeview" />
+            <option value="$PROJECT_DIR$/fjdemo" />
             <option value="$PROJECT_DIR$/../LibraryManager" />
             <option value="$PROJECT_DIR$/../LibraryManager/baselibrary" />
             <option value="$PROJECT_DIR$/../LibraryManager/drawTool" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+        <option name="testRunner" value="PLATFORM" />
       </GradleProjectSettings>
     </option>
   </component>

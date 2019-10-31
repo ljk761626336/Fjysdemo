@@ -1,7 +1,12 @@
 package titan.com.test.map.senter;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,11 +50,25 @@ import com.esri.arcgisruntime.raster.Raster;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.util.ListenableList;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.titan.baselibrary.util.ConverterUtils;
 import com.titan.baselibrary.util.ToastUtil;
 import com.titan.drawtool.DrawTool;
 import com.titan.drawtool.DrawType;
 import com.titan.drawtool.GeometryCallback;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import titan.com.test.R;
 import titan.com.test.map.IMap;
@@ -109,6 +128,7 @@ public class MapTools implements GeometryCallback {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventBus.getDefault().postSticky(_iMap.getGpspoint());
                 Intent intent = new Intent(_iMap.getActivity(),ReportActivity.class);
                 _iMap.getActivity().startActivity(intent);
             }
@@ -150,7 +170,7 @@ public class MapTools implements GeometryCallback {
     }
 
     private void navigat(){
-        ImageView imageView = _iMap.getActivity().findViewById(R.id.navigation);
+        ImageView imageView = _iMap.getActivity().findViewById(R.id.navigation_test);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,49 +225,24 @@ public class MapTools implements GeometryCallback {
             _iMap.getMapview().getSketchEditor().clearGeometry();
         }
         _iMap.getMapview().invalidate();
+
+        ListenableList<GraphicsOverlay> overlays = _iMap.getMapview().getGraphicsOverlays();
+        for(GraphicsOverlay overlay : overlays){
+            overlay.getGraphics().clear();
+        }
+
+        LayerList layers =  _iMap.getMapview().getMap().getOperationalLayers();
+        for(Layer layer : layers){
+            if(layer instanceof FeatureLayer){
+                ((FeatureLayer) layer).clearSelection();
+            }
+        }
     }
 
     /*二维码扫描*/
     public void toCaptureActivity(){
         Intent intent = new Intent(_iMap.getContext(), CaptureActivity.class);
         ((Activity)_iMap.getContext()).startActivityForResult(intent, Constant.REQUEST_CODE);
-    }
-
-
-    private void showCallout(Feature queryFeature,Geometry point){
-
-        ScrollView scrollView = new ScrollView(_iMap.getContext());
-
-        TextView calloutContent = new TextView(_iMap.getContext());
-        calloutContent.setTextColor(Color.BLACK);
-
-        Map<String, Object> map = queryFeature.getAttributes();
-
-        String value = "";
-        for (String key : map.keySet()) {
-            value = value + key + ":" + map.get(key) + "\r\n";
-        }
-        calloutContent.setText(value);
-        scrollView.addView(calloutContent);
-
-        //设置Callout样式
-        Callout.Style style = new Callout.Style(_iMap.getContext());
-        style.setMaxWidth(200); //设置最大宽度
-        style.setMaxHeight(300);  //设置最大高度
-        style.setMinWidth(200);  //设置最小宽度
-        style.setMinHeight(100);  //设置最小高度
-        style.setBorderWidth(2); //设置边框宽度
-        style.setBorderColor(Color.BLUE); //设置边框颜色
-        style.setBackgroundColor(Color.WHITE); //设置背景颜色
-        style.setCornerRadius(8); //设置圆角半径
-        //style.setLeaderLength(50); //设置指示性长度
-        //style.setLeaderWidth(5); //设置指示性宽度
-        style.setLeaderPosition(Callout.Style.LeaderPosition.LOWER_MIDDLE); //设置指示性位置
-
-        _iMap.getMapview().getCallout().setStyle(style);
-        _iMap.getMapview().getCallout().setLocation((Point) point);
-        _iMap.getMapview().getCallout().setContent(scrollView);
-        _iMap.getMapview().getCallout().show();
     }
 
 
@@ -276,7 +271,6 @@ public class MapTools implements GeometryCallback {
 
         switch (actionModel){
             case NAVIGATION:
-
                 toNaviActivity(geometry);
                 break;
             case ISEARCH:
@@ -379,9 +373,9 @@ public class MapTools implements GeometryCallback {
                     if(type == Field.Type.DATE){
                         Object obj = map.get(key);
                         String time = TimeUtil.ObjToString(obj);
-                        value = value + field.getAlias() + ":" + time + "\r\n";
+                        value = value + key + ":" + time + "\r\n";
                     }else{
-                        value = value + field.getAlias() + ":" + map.get(key) + "\r\n";
+                        value = value + key + ":" + map.get(key) + "\r\n";
                     }
                 }
             }
@@ -427,5 +421,175 @@ public class MapTools implements GeometryCallback {
         intent.putExtra("e_lat",point.getY()+"");
         _iMap.getActivity().startActivity(intent);
     }
+
+    /**
+     * 打开指定包名的app,这里的包名指的是app的主包名
+     *
+     * @param packageName 包名
+     */
+    public void openApp(String packageName) {
+        PackageInfo pi = null;
+        try {
+            pi = _iMap.getActivity().getPackageManager().getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
+        resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        resolveIntent.setPackage(pi.packageName);
+
+        PackageManager pm = _iMap.getActivity().getPackageManager();
+        List<ResolveInfo> apps = pm.queryIntentActivities(resolveIntent, 0);
+
+        ResolveInfo ri = apps.iterator().next();
+        if (ri != null) {
+            String getPackageName = ri.activityInfo.packageName;
+            String getClassName = ri.activityInfo.name;
+
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+            ComponentName cn = new ComponentName(getPackageName, getClassName);
+
+            intent.setComponent(cn);
+            _iMap.getActivity().startActivity(intent);
+        }
+    }
+
+    public void showStatistDialog(){
+        Dialog dialog = new Dialog(_iMap.getActivity(),R.style.Dialog);
+        dialog.setContentView(R.layout.dialog_statist);
+
+        BarChart barChart = dialog.findViewById(R.id.bc_ldzz);
+
+        initChart(barChart,"");
+
+        dialog.show();
+    }
+
+
+    /**
+     * 柱形图
+     */
+    private String[] xData;
+    private String[] yData;
+    private double yMin = 0.0;
+    private double yMax;
+
+    private void initChart(BarChart barChart,String type) {
+        String[] datas = _iMap.getActivity().getResources().getStringArray(R.array.bchart_data);
+        yData = new String[datas.length];
+        xData = new String[datas.length];
+        for(int i=0;i<datas.length;i++){
+            xData[i] = datas[i].trim().split(",")[0];
+            yData[i] = datas[i].trim().split(",")[1];
+        }
+
+        barChart.setDrawBarShadow(false); // 柱底阴影
+        barChart.setDrawValueAboveBar(true); // 柱顶数值位置
+        barChart.setDrawGridBackground(false); // 图形底部阴影
+        barChart.getDescription().setEnabled(false); // x轴描述信息
+        barChart.setScaleXEnabled(true); // X轴缩放
+        barChart.setScaleYEnabled(false); // Y轴缩放
+        barChart.setDragEnabled(true); // 是否可以拖拽
+        barChart.setPinchZoom(false); // 是否只能根据X,Y轴放大缩小
+        //设置图例
+        barChart.getLegend().setEnabled(true);//隐藏图例
+        barChart.getLegend().setPosition(Legend.LegendPosition.RIGHT_OF_CHART_INSIDE);//设置图例的位置
+        barChart.getLegend().setTextSize(10f);
+        barChart.getLegend().setFormSize(10f); // set the size of the legend forms/shapes
+        barChart.getLegend().setForm(Legend.LegendForm.SQUARE);//设置图例形状， SQUARE(方格) CIRCLE（圆形） LINE（线性）
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(10f);
+        xAxis.setDrawAxisLine(true); // X轴
+        xAxis.setDrawGridLines(false); // 表格
+        xAxis.setGranularity(1f); // 标签间隔 设置后可使x轴拖拽后不会出现重复标签
+        xAxis.setLabelRotationAngle(0); // 标签文字偏转角度
+        xAxis.setCenterAxisLabels(true);
+
+        xAxis.setLabelCount(xData.length); // 标签数目
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return xData[Math.abs((int) value % xData.length)];
+            }
+        });
+
+        YAxis leftAxis = barChart.getAxisLeft();
+
+        getMostY(); // 设置Y轴最大值和最小值
+
+        if (yMin < 0) {
+            double min = Math.floor(yMin); // 向下取整
+            min = -min + (-min / 10);
+            double max = Math.ceil(yMax); // 向上取整
+            max = max + (max / 10);
+            leftAxis.setAxisMaximum(Float.parseFloat(max + ""));
+            leftAxis.setAxisMinimum(Float.parseFloat(-min + ""));
+        } else {
+            double max = Math.ceil(yMax);
+            max = max + (max / 10);
+            leftAxis.setAxisMaximum(Float.parseFloat(max + ""));
+            leftAxis.setAxisMinimum(0f);
+        }
+
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setSpaceTop(15f);
+
+        barChart.getAxisRight().setEnabled(false);
+        barChart.animateXY(2500, 2500);
+
+        // 设置数据
+        setChartData(barChart,type);
+        barChart.getBarData().setBarWidth(0.8f); // 柱宽，要放在setChartData后面
+    }
+
+    /**
+     * 设置柱形图数据
+     */
+    private void setChartData(BarChart barChart,String type) {
+        ArrayList<BarEntry> yVals = new ArrayList<>();
+
+        for (int i = 0; i < xData.length; i++) {
+            float val = ConverterUtils.toFloat(yData[i]);
+            yVals.add(new BarEntry(i, val));
+        }
+
+        BarDataSet set = new BarDataSet(yVals, type); // 图表底部文字说明
+
+        int[] colors = {Color.parseColor("#f1c40f"), Color.parseColor("#e74c3c"), Color.parseColor("#2ecc71"), Color.parseColor("#757575")};
+
+        set.setColors(colors);
+        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set);
+
+        BarData data = new BarData(dataSets);
+        data.setValueTextSize(10f);
+        data.setValueFormatter(new DefaultValueFormatter(2)); // bar上的数值样式（保留2位小数）
+        barChart.setData(data);
+    }
+
+    /**
+     * 获取数据最大值、最小值
+     */
+    private void getMostY() {
+        yMax = ConverterUtils.toDouble(yData[0]);
+        yMin = ConverterUtils.toDouble(yData[0]);
+        for (String y : yData) {
+            if (ConverterUtils.toDouble(y) > yMax) {
+                yMax = ConverterUtils.toDouble(y);
+            }
+            if (ConverterUtils.toDouble(y) < yMin) {
+                yMin = ConverterUtils.toDouble(y);
+            }
+        }
+
+    }
+
+
+
 
 }

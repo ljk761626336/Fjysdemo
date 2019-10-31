@@ -2,7 +2,7 @@
     <string name="login_name">水产养殖系统</string>
 
 
-    <string name="app_name">霞浦县水产养殖网格化管理信息系统</string>
+    <string name="app_name">水产养殖网格化管理信息系统</string>
 
 
     <!--登录-->
@@ -14,7 +14,8 @@
 
 
     <!--webapi地址-->
-    <string name="serverhost">http://101.201.54.143:10004/api/</string>
+    <!--<string name="serverhost">http://101.201.54.143:10004/api/</string>-->
+    <string name="serverhost">http://118.178.118.213:8081</string>
     <string name="fileUrl">https://www.baidu.com/</string>
 
     <!--地图服务-->
@@ -25,4 +26,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="xhserverhost">http://120.221.95.109:8088/api/</string>
+
 </resources>

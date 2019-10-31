@@ -31,6 +31,7 @@ public class RetrofitHelper {
     GsonConverterFactory factory = GsonConverterFactory.create(new GsonBuilder().create());
     private static RetrofitHelper instance = null;
     private Retrofit mRetrofit = null;
+    private Retrofit xJRetrofit = null;
     private Retrofit fileRetrofit = null;
     private Retrofit mWeatherRetrofit=null;
     public static RetrofitHelper getInstance(Context context){
@@ -67,6 +68,15 @@ public class RetrofitHelper {
         //文件上传
         fileRetrofit = new Retrofit.Builder()
                 .baseUrl(mContext.getResources().getString(R.string.fileUrl))
+                .client(okHttpClientBuilder.build())
+                //.addConverterFactory(SimpleXmlConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        //巡检
+        xJRetrofit = new Retrofit.Builder()
+                .baseUrl(mContext.getResources().getString(R.string.xhserverhost))
                 .client(okHttpClientBuilder.build())
                 //.addConverterFactory(SimpleXmlConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -119,6 +129,16 @@ public class RetrofitHelper {
     public MeteorologyService getWeatherServer(){
         return mWeatherRetrofit.create(MeteorologyService.class);
     }
+
+    /**
+     * 常规接口
+     *
+     * @return
+     */
+    public RetrofitService getXjServer() {
+        return xJRetrofit.create(RetrofitService.class);
+    }
+
    /* private class MyNetworkInterceptor implements Interceptor
     {
         @Override

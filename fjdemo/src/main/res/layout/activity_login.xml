@@ -25,7 +25,7 @@
         android:layout_margin="@dimen/width_20"
         android:textColor="@color/green_cc"
         android:textSize="@dimen/width_40"
-        android:text="演示系统" />
+        android:text="@string/login_name" />
 
 
     <LinearLayout
